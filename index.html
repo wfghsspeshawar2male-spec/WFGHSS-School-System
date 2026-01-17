@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduNexus School Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+      
+      @media print {
+        /* Reset height and overflow for printing */
+        html, body, #root, .h-screen {
+          height: auto !important;
+          overflow: visible !important;
+          display: block !important;
+          background: white !important;
+        }
+
+        /* Ensure main container expands */
+        main {
+          overflow: visible !important;
+          height: auto !important;
+          position: static !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        /* Hide scrollbars and UI elements */
+        .print\:hidden {
+          display: none !important;
+        }
+
+        /* Force page breaks for different reports */
+        .break-inside-avoid {
+          page-break-inside: avoid;
+        }
+
+        /* Adjust colors for printing */
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        /* Hide browser-added header/footer if possible (standard practice) */
+        @page {
+          margin: 1cm;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

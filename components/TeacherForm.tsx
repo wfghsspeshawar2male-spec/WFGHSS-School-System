@@ -5,10 +5,12 @@ import { db } from '../services/storage';
 interface Props {
   onSuccess: () => void;
   onCancel: () => void;
+  onDelete?: (id: string) => void;
+  onPrint?: (teacher: Teacher) => void;
   initialData?: Teacher | null;
 }
 
-const TeacherForm: React.FC<Props> = ({ onSuccess, onCancel, initialData }) => {
+const TeacherForm: React.FC<Props> = ({ onSuccess, onCancel, onDelete, onPrint, initialData }) => {
   const [formData, setFormData] = useState<Partial<Teacher>>({
     name: '',
     designation: '',
@@ -164,11 +166,34 @@ const TeacherForm: React.FC<Props> = ({ onSuccess, onCancel, initialData }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
-          <button type="button" onClick={onCancel} className="px-6 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Cancel</button>
-          <button type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1e3a8a] hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            {initialData ? 'Update Teacher' : 'Save Teacher'}
-          </button>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 border-t border-gray-100">
+          <div className="flex gap-2">
+            {initialData && (
+              <>
+                <button 
+                  type="button" 
+                  onClick={() => onDelete?.(initialData.id)}
+                  className="px-4 py-2 bg-red-50 text-red-600 rounded-md text-sm font-medium hover:bg-red-100 transition-colors"
+                >
+                  Delete Profile
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => onPrint?.(initialData)}
+                  className="px-4 py-2 bg-gray-50 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors border flex items-center gap-1"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                  Print
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex gap-3">
+            <button type="button" onClick={onCancel} className="px-6 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">Cancel</button>
+            <button type="submit" className="px-6 py-2 rounded-md shadow-sm text-sm font-medium text-white bg-[#1e3a8a] hover:bg-blue-900">
+              {initialData ? 'Update Teacher' : 'Save Teacher'}
+            </button>
+          </div>
         </div>
       </form>
     </div>

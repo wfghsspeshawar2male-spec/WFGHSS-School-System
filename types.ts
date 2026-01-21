@@ -47,6 +47,14 @@ export interface TimetableEntry {
   classId: string;
 }
 
+export interface TimetableSettings {
+  sessionName: 'Summer' | 'Winter';
+  startTime: string; // HH:mm
+  periodDuration: number; // minutes
+  breakDuration: number; // minutes
+  breakAfterPeriod: number; // period number
+}
+
 export enum View {
   DASHBOARD = 'DASHBOARD',
   STUDENTS = 'STUDENTS',

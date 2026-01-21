@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Teacher, TimetableEntry, SubstitutionSuggestion } from "../types";
+import { db } from "./storage";
 
 const getClient = () => {
   const apiKey = process.env.API_KEY;
@@ -9,6 +10,7 @@ const getClient = () => {
 
 export const generateTimetableAI = async (teachers: Teacher[], classNames: string[]): Promise<TimetableEntry[]> => {
   const ai = getClient();
+  const settings = db.getSettings();
   
   const teacherContext = teachers.map(t => `${t.name} (ID: ${t.id}) teaches ${t.subjects.join(', ')}`).join('\n');
   const classesContext = classNames.join(', ');
@@ -17,20 +19,22 @@ export const generateTimetableAI = async (teachers: Teacher[], classNames: strin
     Create a Master Academic Year Timetable (Weekly Schedule) for the entire school.
     Classes to schedule: ${classesContext}.
     
+    Session Context (${settings.sessionName}):
+    - Class Duration: ${settings.periodDuration} minutes.
+    - Break Duration: ${settings.breakDuration} minutes (After Period ${settings.breakAfterPeriod}).
+    
     Structure & Timing Rules:
     1. Monday to Thursday: 8 Periods (Period 1 to 8).
     2. Friday: 5 Periods ONLY (Period 1 to 5). Do NOT schedule periods 6, 7, or 8 on Friday.
-    3. Period Duration: 35 minutes each.
-    4. Break: There is a 15-minute break after Period 5.
     
     Faculty Available:
     ${teacherContext}
     
     Strategic Scheduling Rules:
-    1. SUBJECT EXPERTISE: Assign subjects strictly based on teacher qualification.
+    1. SUBJECT EXPERTISE: Assign subjects strictly based on teacher qualification and taught subjects.
     2. WORKLOAD BALANCE: Distribute hard subjects (Math, Science) evenly across the week for students.
-    3. TEACHER CONFLICTS: A teacher CANNOT be in two classes at the same time. This is a hard constraint.
-    4. YEARLY CONSISTENCY: This schedule will be used for the whole academic year, so ensure it is robust and complete.
+    3. TEACHER CONFLICTS: A teacher CANNOT be in two classes at the same time. This is a critical hard constraint.
+    4. YEARLY CONSISTENCY: Ensure the schedule is robust and pedagogically sound.
     5. Return a single flat JSON array containing entries for ALL requested classes.
   `;
 

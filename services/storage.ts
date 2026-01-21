@@ -1,10 +1,19 @@
-import { Student, Teacher, TimetableEntry, Subject } from '../types';
+import { Student, Teacher, TimetableEntry, Subject, TimetableSettings } from '../types';
 
 const STORAGE_KEYS = {
   STUDENTS: 'edunexus_students',
   TEACHERS: 'edunexus_teachers_v2',
   SUBJECTS: 'edunexus_subjects',
   TIMETABLE: 'edunexus_timetable',
+  SETTINGS: 'edunexus_timetable_settings',
+};
+
+const DEFAULT_SETTINGS: TimetableSettings = {
+  sessionName: 'Summer',
+  startTime: '08:00',
+  periodDuration: 35,
+  breakDuration: 15,
+  breakAfterPeriod: 5,
 };
 
 const INITIAL_TEACHERS: Teacher[] = [];
@@ -105,5 +114,14 @@ export const db = {
 
   saveTimetable: (timetable: TimetableEntry[]): void => {
     localStorage.setItem(STORAGE_KEYS.TIMETABLE, JSON.stringify(timetable));
+  },
+
+  getSettings: (): TimetableSettings => {
+    const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
+    return data ? JSON.parse(data) : DEFAULT_SETTINGS;
+  },
+
+  saveSettings: (settings: TimetableSettings): void => {
+    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
   }
 };

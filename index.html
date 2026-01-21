@@ -10,6 +10,20 @@
       body { font-family: 'Inter', sans-serif; }
       
       @media print {
+        /* Hide everything by default when printing individual records */
+        body.printing-individual .no-print-on-individual {
+          display: none !important;
+        }
+
+        /* Show only the target record */
+        body.printing-individual .print-only-individual {
+          display: block !important;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+        }
+
         /* Reset height and overflow for printing */
         html, body, #root, .h-screen {
           height: auto !important;
@@ -32,21 +46,34 @@
           display: none !important;
         }
 
-        /* Force page breaks for different reports */
+        /* Force page breaks */
         .break-inside-avoid {
           page-break-inside: avoid;
         }
 
-        /* Adjust colors for printing */
+        /* Color adjustments */
         * {
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
         }
 
-        /* Hide browser-added header/footer if possible (standard practice) */
         @page {
-          margin: 1cm;
+          margin: 1.5cm;
         }
+
+        /* Table styling for print */
+        table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+        }
+        th, td {
+          border: 1px solid #e2e8f0 !important;
+        }
+      }
+
+      /* Helper for individual print preview visibility in DOM */
+      .print-only-individual {
+        display: none;
       }
     </style>
   <script type="importmap">

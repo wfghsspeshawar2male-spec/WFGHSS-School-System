@@ -10,68 +10,44 @@
       body { font-family: 'Inter', sans-serif; }
       
       @media print {
-        /* Hide everything by default when printing individual records */
+        /* Hide all UI elements when printing individual records */
         body.printing-individual .no-print-on-individual {
           display: none !important;
         }
 
-        /* Show only the target record */
+        /* Show the specific print template */
         body.printing-individual .print-only-individual {
           display: block !important;
-          position: absolute;
-          top: 0;
-          left: 0;
+          visibility: visible !important;
           width: 100%;
+          margin: 0;
+          padding: 0;
         }
 
-        /* Reset height and overflow for printing */
-        html, body, #root, .h-screen {
+        /* General print resets */
+        html, body {
           height: auto !important;
           overflow: visible !important;
-          display: block !important;
           background: white !important;
         }
 
-        /* Ensure main container expands */
-        main {
-          overflow: visible !important;
-          height: auto !important;
-          position: static !important;
-          padding: 0 !important;
-          margin: 0 !important;
-        }
-
-        /* Hide scrollbars and UI elements */
-        .print\:hidden {
+        /* Hide specific elements during any print */
+        .print-hidden, button, .print\:hidden {
           display: none !important;
         }
 
-        /* Force page breaks */
-        .break-inside-avoid {
-          page-break-inside: avoid;
+        @page {
+          margin: 1cm;
+          size: auto;
         }
 
-        /* Color adjustments */
         * {
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
         }
-
-        @page {
-          margin: 1.5cm;
-        }
-
-        /* Table styling for print */
-        table {
-          width: 100% !important;
-          border-collapse: collapse !important;
-        }
-        th, td {
-          border: 1px solid #e2e8f0 !important;
-        }
       }
 
-      /* Helper for individual print preview visibility in DOM */
+      /* Base state: print templates are hidden */
       .print-only-individual {
         display: none;
       }
